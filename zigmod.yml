@@ -1,0 +1,6 @@
+id: 7yii2disf02zfkop37qkbdt80tv37xz86iylzeu5g1lury8m
+name: jaksel
+license: MIT
+description: 
+root_dependencies:
+  - src: git https://github.com/jecolon/zigstr
