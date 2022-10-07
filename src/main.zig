@@ -92,6 +92,12 @@ fn evalSpill(stmt: zigstr, expr: zigstr) !void {
     std.debug.print("{s}", .{value});
 }
 
+test "spill" {
+    var stmt = try zigstr.fromBytes(allocator, "spill \"hallo\"");
+    var expr = try zigstr.fromBytes(allocator, "\"hallo\"");
+    try evalSpill(stmt, expr);
+}
+
 fn evalAssignment(name: []const u8, stmt: zigstr, expr: zigstr) !void {
     if (mem.eql(u8, name, ""))
         return std.debug.print("Syntax Error: Expected an identifier after keyword 'literally'", .{});
