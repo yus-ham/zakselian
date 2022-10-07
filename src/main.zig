@@ -85,7 +85,7 @@ fn evalSpill(stmt: zigstr, expr: zigstr) !void {
     var start_expr = (try stmt.indexOf("spill ")).? + 5;
     var end_expr = try _stmt.graphemeCount();
     if (start_expr == end_expr)
-        return std.debug.print("Syntax Error: Expected expression after keyword: 'spill'", .{});
+        return std.debug.print("Syntax Error: Expected an expression after keyword: 'spill'", .{});
     try _expr.reset(try _stmt.substr(start_expr, end_expr));
     try _expr.trim(" ");
     var value = try evalExpression(_expr);
@@ -104,7 +104,7 @@ fn evalAssignment(name: []const u8, stmt: zigstr, expr: zigstr) !void {
 
     var itu_pos = (try stmt.indexOf(" itu ")) orelse 0;
     if (itu_pos == 0)
-        return std.debug.print("Syntax Error: Expected keyword 'itu' after identifier '{s}'", .{name});
+        return std.debug.print("Syntax Error: Expected a keyword 'itu' after identifier '{s}'", .{name});
 
     var _stmt = stmt;
     var _expr = expr;
