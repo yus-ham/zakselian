@@ -153,5 +153,6 @@ fn evalExpression(expr: zigstr) ![]u8 {
 }
 
 test "evalExpression" {
-    _ = try evalExpression(try zigstr.fromBytes(allocator, "  \"as\\\" dfgh\""));
+    var str = try zigstr.fromBytes(allocator, "  \"as\\\" dfgh\"");
+    _ = mem.eql(u8, "as\" dfgh", try evalExpression(str));
 }
