@@ -15,7 +15,7 @@ pub const Config = struct {};
 
 pub const Error = error {UnkownOption};
 
-const ZSVal = struct {scalar: zigstr};
+const ZSVal = struct {scalar: []u8};
 
 var arena = std.heap.ArenaAllocator.init(std.heap.page_allocator);
 const allocator = arena.allocator();
@@ -124,12 +124,12 @@ const states = enum {
     string_literal_end,
 };
 
-fn evalExpression(expr: zigstr) !zigstr {
+fn evalExpression(expr: zigstr) ![]u8 {
     var _expr = expr;
     var state = states.string_literal_end;
     var tmp_string = try zigstr.fromBytes(allocator, "");
     try _expr.trim(" ");
-    defer tmp_string.deinit();
+    errdefer tmp_string.deinit();
 
     if (_expr.bytes.items[0] == '"') {
         state = states.string_literal_start;
@@ -145,16 +145,11 @@ fn evalExpression(expr: zigstr) !zigstr {
             }
             try tmp_string.concat(token);
             state = states.string_literal_end;
-            std.debug.print("{s}", .{tmp_string});
-            return tmp_string;
-            // var value = try tmp_string.byteSlice(0, try tmp_string.graphemeCount());
-            // return value;
-            // std.debug.print("String: '{s}'\n", .{tmp_string});
+            return tmp_string.bytes.items;
         }
     }
 
-    try tmp_string.reset("");
-    return tmp_string;
+    return "";
 }
 
 test "evalExpression" {
